@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 //        link to signin activity
-        val gotosignin = findViewById<TextView>(R.id.linktologin)
+        val gotosignin = findViewById<TextView>(R.id.linktosignin)
         gotosignin.setOnClickListener {
             val intent = Intent(application, SigninActivity::class.java)
             startActivity(intent)
