@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             body.put("phone", phone.text.toString())
             body.put("password", password.text.toString())
 //            helper.post(api,body)
-
             helper.post(api, body)
         }
     }
