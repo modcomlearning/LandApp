@@ -122,18 +122,88 @@ In the `activity_main.xml`, we will create the layout that includes fields for *
         android:textColor="#3F51B5"
         android:id="@+id/linktologin" />
 </LinearLayout>
+```
 
 
+## Step 3: Implement Signup Logic in MainActivity.kt
 
+Now, implement the logic for collecting user data and sending it to the API when the Create Account button is clicked. The following code will handle the signup process.
 
+In MainActivity.kt add below code
+```kotlin
+package com.example.uzaland
 
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import org.json.JSONObject
 
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
+        // Link to the Login activity
+        val gotosignin = findViewById<TextView>(R.id.linktologin)
+        gotosignin.setOnClickListener {
+            val intent = Intent(application, SigninActivity::class.java)
+            startActivity(intent)
+        }
 
+        // Fetch the input fields
+        val username = findViewById<EditText>(R.id.username)
+        val email = findViewById<EditText>(R.id.email)
+        val phone = findViewById<EditText>(R.id.phone)
+        val password = findViewById<EditText>(R.id.password)
 
+        // Fetch the Create Account button and set the OnClickListener
+        val btnregister = findViewById<Button>(R.id.create)
+        btnregister.setOnClickListener {
+            // Prepare the data to send to the backend API
+            val api = "https://modcom2.pythonanywhere.com/api/signup"  // Replace this with your API endpoint
+            val helper = ApiHelper(applicationContext)  // Assuming ApiHelper is implemented to handle requests
+            val body = JSONObject()
+            body.put("username", username.text.toString())
+            body.put("email", email.text.toString())
+            body.put("phone", phone.text.toString())
+            body.put("password", password.text.toString())
 
+            // Post the data to the API
+            helper.post(api, body)
+        }
+    }
+}
 
+```
 
+## Code Explanation:
 
+### 1. **UI Setup**:
+- `setContentView(R.layout.activity_main)`: Sets the content view to the layout defined in `activity_main.xml`.
+- `ViewCompat.setOnApplyWindowInsetsListener`: Adjusts UI padding to prevent overlap with the system UI (status bar and navigation bar).
+
+### 2. **Navigation to Login Screen**:
+- The **TextView** `linktologin` allows users to navigate to the `SigninActivity` if they already have an account.
+
+### 3. **Fetching User Input**:
+- `EditText` fields for **username**, **email**, **phone**, and **password** are linked to variables to get the data entered by the user.
+
+### 4. **Handling Button Click**:
+- When the **Create Account** button is clicked, the entered data is collected and sent as a **POST** request to the API.
+
+### 5. **Posting Data to the API**:
+- The `helper.post(api, body)` sends the data to the backend API for account creation. The `ApiHelper` class should manage the actual HTTP request.
 
 
