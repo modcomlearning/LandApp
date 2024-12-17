@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddLand">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sell Land"
+        android:textSize="28sp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:background="@drawable/shape"
+        android:padding="30dp"/>
+
+
+
+
+    <!-- EditText for land location -->
+    <EditText
+        android:id="@+id/landLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Land Location"
+        android:inputType="text"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- EditText for land cost -->
+    <EditText
+        android:id="@+id/landCost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Land Cost"
+        android:inputType="number"
+        android:layout_marginBottom="8dp" />
+
+    <!-- EditText for land size -->
+    <EditText
+        android:id="@+id/landSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Land Size"
+        android:inputType="text"
+        android:layout_marginBottom="8dp" />
+
+    <!-- EditText for land owner -->
+    <EditText
+        android:id="@+id/landOwner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Land Owner"
+        android:inputType="text"
+        android:layout_marginBottom="8dp" />
+
+    <!-- EditText for plot number -->
+    <EditText
+        android:id="@+id/plotNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Plot Number"
+        android:inputType="text"
+        android:layout_marginBottom="16dp" />
+
+    <!-- EditText for land description -->
+    <EditText
+        android:id="@+id/landDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Land Description"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:gravity="top"
+        android:layout_marginBottom="8dp" />
+    <Button
+        android:id="@+id/btnUploadImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload Land Image"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Button to upload land image -->
+    <Button
+        android:id="@+id/btnaddland"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Land"
+        android:layout_marginBottom="16dp" />
+
+
+</LinearLayout>
