@@ -128,7 +128,9 @@ In the `activity_main.xml`, we will create the layout that includes fields for *
 ## Step 3: Implement Signup Logic in MainActivity.kt
 
 Now, implement the logic for collecting user data and sending it to the API when the Create Account button is clicked. The following code will handle the signup process.
+Note:
 
+Make sure to replace the API URLs (/signup) with the correct URLs provided by your backend for authentication.
 In MainActivity.kt add below code
 ```kotlin
 package com.example.landapp
@@ -261,8 +263,12 @@ In `res/layout/activity_signin.xml`, add the following code to design the sign-i
 
 Now, open SigninActivity.kt and add the following code to handle the login logic:
 
+NB: In below code after Login is successfull, we Intent to HomeActivity.kt, Please Create HomeActivity.kt before making the Intent after Login.
+Note:
+
+Make sure to replace the API URLs (/signin) with the correct URLs provided by your backend for authentication.
 ```kotlin
-package com.example.uzaland
+package com.example.landapp
 
 import android.content.Intent
 import android.os.Bundle
@@ -321,7 +327,6 @@ class SigninActivity : AppCompatActivity() {
         }
     }
 }
-
 ```
 ### Link Sign-Up from MainActivity:
 To allow users to navigate from the sign-un screen to the sign-in screen, update the MainActivity with the following code:
@@ -349,6 +354,207 @@ To allow users to navigate from the sign-un screen to the sign-in screen, update
 - A **JSON Object** is created with the user's input and sent to the `/signin` endpoint.
 - If the response contains a user, the login is successful, and the user is redirected to the **HomeActivity**.
 - If the credentials are invalid, a **Toast** message displays an error.
+
+
+## Step 5: Get Land Information from API
+
+### XML Layout (activity_home.xml)
+
+In this step, we create the layout for the **HomeActivity** where the land details will be displayed.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HomeActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Lands"
+        android:textSize="28sp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:background="@drawable/shape"
+        android:padding="30dp"/>
+    
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress"/>
+    
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        app:cardElevation="10dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text=""
+                android:layout_margin="5dp"
+                android:padding="3dp"
+                android:id="@+id/empdata"/>
+
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
+```
+
+
+In this layout:
+
+- **TextView** displays the title "View Lands".
+- **ProgressBar** shows loading status while fetching data.
+- **CardView** contains a **ScrollView** with a **TextView** to dynamically display land information.
+
+### Kotlin Code (HomeActivity.kt)
+
+In the **HomeActivity.kt**, we will fetch land information from the API and display it in the `TextView`.
+
+```kotlin
+package com.example.landapp
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import org.json.JSONArray
+
+class HomeActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+      super.onCreate(savedInstanceState)
+      enableEdgeToEdge()
+      setContentView(R.layout.activity_home)
+      ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+         val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+         v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+         insets
+      }
+
+      // Link to AddLand activity
+      val addland = findViewById<Button>(R.id.sellLandButton)
+      addland.setOnClickListener {
+         val intent = Intent(applicationContext, AddLand::class.java)
+         startActivity(intent)
+      }
+
+      // Find the progress bar by its ID
+      val progress = findViewById<ProgressBar>(R.id.progress)
+
+      // Specify the URL to get the land data
+      val api = "https://modcom2.pythonanywhere.com/api/get_land_details"
+
+      // Access the helper class
+      val helper = ApiHelper(applicationContext)
+
+      // Use the helper class to get data from the API
+      helper.get(api, object : ApiHelper.CallBack {
+         // Convert the results into a JSON array
+         override fun onSuccess(result: String?) {
+            val landJsonArray = JSONArray(result.toString())
+
+            // Find the TextView to display the data
+            val empdata = findViewById<TextView>(R.id.empdata)
+
+            // Loop through each land entry and append the details to the TextView
+            (0 until landJsonArray.length()).forEach {
+               val land = landJsonArray.getJSONObject(it)
+               empdata.append("Land Owner:  " + land.get("land_owner") + "\n")
+               empdata.append("Land Location: " + land.get("land_location") + "\n")
+               empdata.append("Land Size:  " + land.get("land_size") + "\n")
+               empdata.append("Land Cost:     " + land.get("land_cost") + "\n")
+               empdata.append("Land Description: " + land.get("land_description") + "\n")
+               empdata.append("\n \n")
+               empdata.append("\n \n")
+            }
+
+            // Hide the progress bar after data is successfully fetched
+            progress.visibility = View.GONE
+         }
+      })
+   }
+}
+
+```
+
+
+## Code Explanation:
+### UI Setup:
+- `setContentView(R.layout.activity_home)` loads the layout for the home screen.
+- `ViewCompat.setOnApplyWindowInsetsListener` ensures the UI doesn't overlap with system UI elements (like status bar).
+
+### Link to AddLand Activity:
+- A button `addland` links to the **AddLand** Activity, allowing the user to post new land details.
+
+### Fetching Data from API:
+- The `helper.get` method is used to make a GET request to the API URL (`https://labemployees.pythonanywhere.com/api/get_land_details`).
+- The response is a JSON array, which is parsed and displayed in the `TextView` (`empdata`).
+
+### Displaying Data:
+- For each land item in the response, the details (land owner, location, size, cost, description) are appended to the `empdata` TextView.
+- Each land entry is separated by line breaks for better readability.
+
+### Hide ProgressBar:
+- Once the data is fetched, the progress bar is hidden (`progress.visibility = View.GONE`).
+
+This step explains how to fetch and display land data from an API in `HomeActivity`. Make sure the API endpoint is correctly specified and update it if necessary.
+
+
+## Conclusion
+
+In this Documentation, we have created a simple Android application, **LandApp**, that allows users to:
+
+1. **Sign Up**: Users can create a new account by entering their username, email, phone, and password. This data is sent to the backend API to create a new account.
+2. **Sign In**: Users can log into their account by entering their email and password. If the credentials are valid, they are redirected to the home screen.
+3. **View Land Listings**: Once logged in, users can view a list of posted land details fetched from an API. The land information is displayed in a scrollable view, including details like the land owner, location, size, cost, and description.
+4. **Add New Land**: Users can add new land details by navigating to a separate activity where they can post land information.
+
+### Key Technologies and Libraries Used:
+- **Kotlin**: The primary language for developing Android applications.
+- **Glide**: For loading images into ImageViews.
+- **LoopJ**: For making network requests to the API.
+- **Gson**: For parsing JSON data.
+- **CardView** and **ScrollView**: For displaying content in a scrollable, card-styled layout.
+- **ProgressBar**: For indicating loading status while fetching data.
+
+### API Integration:
+The app interacts with a backend API to handle user authentication (sign up and sign in) and fetch land information. Make sure to update the API endpoints as necessary to match your server configuration.
+
+By following the steps in this tutorial, you now have a functional app that provides users with the ability to sign up, sign in, and view and post land details.
+
+Feel free to customize and enhance the app further by adding features like image uploads, advanced search functionality, or additional screens.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
