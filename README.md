@@ -539,7 +539,6 @@ In this Documentation, we have created a simple Android application, **LandApp**
 1. **Sign Up**: Users can create a new account by entering their username, email, phone, and password. This data is sent to the backend API to create a new account.
 2. **Sign In**: Users can log into their account by entering their email and password. If the credentials are valid, they are redirected to the home screen.
 3. **View Land Listings**: Once logged in, users can view a list of posted land details fetched from an API. The land information is displayed in a scrollable view, including details like the land owner, location, size, cost, and description.
-4. **Add New Land**: Users can add new land details by navigating to a separate activity where they can post land information.
 
 ### Key Technologies and Libraries Used:
 - **Kotlin**: The primary language for developing Android applications.
