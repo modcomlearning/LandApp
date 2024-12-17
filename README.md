@@ -1,11 +1,22 @@
 # LandApp - Land Management System
 
 LandApp is an Android application designed for managing land listings. Users can sign up, log in, and view all posted lands through an intuitive interface. The app communicates with a backend API, allowing developers to easily extend and integrate with their systems.
+<br>This LandApp is a Mobile Version of the Land Management System Created Earlier in React JS.<br>
+This project uses Android Studio, and the API documentation for this app is available at this Github Link: [modcomlearning/BackendAPI](https://github.com/modcomlearning/BackendAPI).
+NB: Please check your API hosted on https://pythonanywhere.com. <br/>
+Open Insomnia testing Tool and Confirm that yours APIs are in order.
 
-This project uses Android Studio, and the API for this app is available at this Github Link: [modcomlearning/BackendAPI](https://github.com/modcomlearning/BackendAPI).
 
-## Features
+The APIs endpoint used in this App are Hosted in below Links.
+```
+   https://modcom2.pythonanywhere.com/api/signin
+   https://modcom2.pythonanywhere.com/api/signup
+   https://modcom2.pythonanywhere.com/api/get_land_details
+```
 
+
+
+## Features of the LandApp
 - **Login**: Securely log in with registered credentials.
 - **Sign Up**: New users can sign up with their details and become part of the system.
 - **View Lands**: Users can view all the posted land details including owner, location, size, cost, and description.
