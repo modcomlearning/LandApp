@@ -54,7 +54,7 @@ class AddLand : AppCompatActivity() {
             body.put("land_size", landSize.text.toString())
             body.put("land_owner", landOwner.text.toString())
             body.put("plot_no", plotNumber.text.toString())
-            body.put("land_photo", "imageUrl")
+
 
             // Access the API helper class
             val helper = ApiHelper(applicationContext)

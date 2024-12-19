@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,12 +22,7 @@ class SigninActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        //        link to signin activity
-        val gotosignup = findViewById<TextView>(R.id.linktoregister)
-        gotosignup.setOnClickListener {
-            val intent = Intent(application, MainActivity::class.java)
-            startActivity(intent)
-        }
+
         //fetch login button and listen on click
         val loginbtn = findViewById<Button>(R.id.login)
         loginbtn.setOnClickListener {

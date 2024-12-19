@@ -32,7 +32,7 @@ class HomeActivity : AppCompatActivity() {
         val progress = findViewById<ProgressBar>(R.id.progress)
 
         //specify the url to get the lands
-        val api = "https://modcom2.pythonanywhere.com/api/get_land_details"
+        val api = "https://labemployees.pythonanywhere.com/api/get_land_details"
 
         //access the helper
         val helper = ApiHelper(applicationContext)

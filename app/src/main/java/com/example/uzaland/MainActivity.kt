@@ -10,8 +10,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import org.json.JSONArray
-import org.json.JSONObject
+import com.loopj.android.http.RequestParams
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 //        link to signin activity
-        val gotosignin = findViewById<TextView>(R.id.linktologin)
+        val gotosignin = findViewById<TextView>(R.id.linktosignin)
         gotosignin.setOnClickListener {
             val intent = Intent(application, SigninActivity::class.java)
             startActivity(intent)
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             //Post data to /signup API
             val api = "https://modcom2.pythonanywhere.com/api/signup"
             val helper = ApiHelper(applicationContext)
-            val body = JSONObject()
+            val body = RequestParams()
             body.put("username", username.text.toString())
             body.put("email", email.text.toString())
             body.put("phone", phone.text.toString())

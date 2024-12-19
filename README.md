@@ -50,11 +50,21 @@ To set up the project, you will need the following:
 
 
 
-Next go to https://justpaste.it/99stf
+Next go to https://justpaste.it/dqqb9
 Copy the ApiHelper Code and Paste it in your app Package.
-The ApiHelper will be used to send requests to and from our API Using Loopj HTTP Library
+The ApiHelper will be used to send requests to and from our API Using Loopj HTTP Library<br/>
 
+<b>Important Note:</b> <br/>
+Since this app connects to the Internet, We need to add INTERNET permissions to allow our 
+LandApp access the Internet. <br>/
+This permission allows the app to send and receive data over the internet.
 
+To Add this permission, in <b>manifests</b> Folder, Open AndroidManifest.xml, Add below line before the application Tag.
+
+        <uses-permission android:name="android.permission.INTERNET" />   
+
+See Image Below.
+![img.png](img.png)
 
 ## Step 2: Implementing Signup Functionality
 
@@ -155,7 +165,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import org.json.JSONObject
+import com.loopj.android.http.RequestParams
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -180,7 +190,7 @@ class MainActivity : AppCompatActivity() {
             // Prepare the data to send to the backend API
             val api = "https://modcom2.pythonanywhere.com/api/signup"  // Replace this with your API endpoint
             val helper = ApiHelper(applicationContext)  // Assuming ApiHelper is implemented to handle requests
-            val body = JSONObject()
+            val body = RequestParams()
             body.put("username", username.text.toString())
             body.put("email", email.text.toString())
             body.put("phone", phone.text.toString())
@@ -292,6 +302,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import org.json.JSONObject
+import com.loopj.android.http.RequestParams
 
 class SigninActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -317,7 +328,7 @@ class SigninActivity : AppCompatActivity() {
             val helper = ApiHelper(applicationContext)
 
             // Create a JSON Object with email and password
-            val body = JSONObject()
+            val body = RequestParams()
             body.put("email", email.text.toString())
             body.put("password", password.text.toString())
 
@@ -463,13 +474,7 @@ class HomeActivity : AppCompatActivity() {
          insets
       }
 
-      // Link to AddLand activity
-      val addland = findViewById<Button>(R.id.sellLandButton)
-      addland.setOnClickListener {
-         val intent = Intent(applicationContext, AddLand::class.java)
-         startActivity(intent)
-      }
-
+      
       // Find the progress bar by its ID
       val progress = findViewById<ProgressBar>(R.id.progress)
 
@@ -551,7 +556,7 @@ In this Documentation, we have created a simple Android application, **LandApp**
 ### API Integration:
 The app interacts with a backend API to handle user authentication (sign up and sign in) and fetch land information. Make sure to update the API endpoints as necessary to match your server configuration.
 
-By following the steps in this tutorial, you now have a functional app that provides users with the ability to sign up, sign in, and view and post land details.
+By following the steps in this documentation, you now have a functional app that provides users with the ability to sign up, sign in, and view and post land details.
 
 Feel free to customize and enhance the app further by adding features like image uploads, advanced search functionality, or additional screens.
 
