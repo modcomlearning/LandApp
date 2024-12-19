@@ -23,9 +23,9 @@ class SigninActivity : AppCompatActivity() {
             insets
         }
 
-        //fetch login button and listen on click
-        val loginbtn = findViewById<Button>(R.id.login)
-        loginbtn.setOnClickListener {
+        //find login button and listen on click
+        val signin = findViewById<Button>(R.id.signin)
+        signin.setOnClickListener {
 //            fetch the 2 inputs
             val email = findViewById<EditText>(R.id.email)
             val password = findViewById<EditText>(R.id.password)

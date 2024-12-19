@@ -204,6 +204,10 @@ class MainActivity : AppCompatActivity() {
 
 ```
 
+Layout Output 
+![Screenshot_20241219-140735.png](../../../home/user/Downloads/Screenshot_20241219-140735.png)
+
+
 ## Code Explanation:
 
 ### 1. **UI Setup**:
@@ -274,11 +278,15 @@ In `res/layout/activity_signin.xml`, add the following code to design the sign-i
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login Account"
-        android:id="@+id/login"
+        android:id="@+id/signin"
         android:layout_marginTop="10dp" />
    
 </LinearLayout>
 ```
+
+Layout Output
+![Screenshot_20241219-140518.png](../../../home/user/Downloads/Screenshot_20241219-140518.png)
+
 
 ## Step 4: Handle User Login in SigninActivity.kt:
 
@@ -316,9 +324,9 @@ class SigninActivity : AppCompatActivity() {
         }
        
 
-        // Fetch Login Button and listen for clicks
-        val loginbtn = findViewById<Button>(R.id.login)
-        loginbtn.setOnClickListener {
+        // Find Login Button and listen for clicks
+        val signin = findViewById<Button>(R.id.signin)
+        signin.setOnClickListener {
             // Fetch the email and password inputs
             val email = findViewById<EditText>(R.id.email)
             val password = findViewById<EditText>(R.id.password)
@@ -355,8 +363,8 @@ To allow users to navigate from the sign-un screen to the sign-in screen, update
 
 ```kotlin
          //link to signin activity
-        val gotosignin = findViewById<TextView>(R.id.linktosignin)
-        gotosignin.setOnClickListener {
+        val linktosignin = findViewById<TextView>(R.id.linktosignin)
+        linktosignin.setOnClickListener {
             val intent = Intent(application, SigninActivity::class.java)
             startActivity(intent)
         }
@@ -451,10 +459,8 @@ In the **HomeActivity.kt**, we will fetch land information from the API and disp
 ```kotlin
 package com.example.landapp
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -473,41 +479,39 @@ class HomeActivity : AppCompatActivity() {
          v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
          insets
       }
-
-      
-      // Find the progress bar by its ID
+//   
+      //find the progressbar by use of its id
       val progress = findViewById<ProgressBar>(R.id.progress)
 
-      // Specify the URL to get the land data
+      //specify the url to get the lands
       val api = "https://modcom2.pythonanywhere.com/api/get_land_details"
 
-      // Access the helper class
+      //access the helper
       val helper = ApiHelper(applicationContext)
 
-      // Use the helper class to get data from the API
+      //inside of the helper class, access the get function
       helper.get(api, object : ApiHelper.CallBack {
-         // Convert the results into a JSON array
+         //convert the get results into a json array
          override fun onSuccess(result: String?) {
             val landJsonArray = JSONArray(result.toString())
 
-            // Find the TextView to display the data
-            val empdata = findViewById<TextView>(R.id.empdata)
+            //load the results to the textView
+            val landdata = findViewById<TextView>(R.id.landdata)
 
-            // Loop through each land entry and append the details to the TextView
+            //a single land
             (0 until landJsonArray.length()).forEach {
                val land = landJsonArray.getJSONObject(it)
-               empdata.append("Land Owner:  " + land.get("land_owner") + "\n")
-               empdata.append("Land Location: " + land.get("land_location") + "\n")
-               empdata.append("Land Size:  " + land.get("land_size") + "\n")
-               empdata.append("Land Cost:     " + land.get("land_cost") + "\n")
-               empdata.append("Land Description: " + land.get("land_description") + "\n")
-               empdata.append("\n \n")
-               empdata.append("\n \n")
+               landdata.append("Land Owner:  " + land.get("land_owner") + "\n")
+               landdata.append("Land Location: " + land.get("land_location") + "\n")
+               landdata.append("Land Size:  " + land.get("land_size") + "\n")
+               landdata.append("Land Cost:     " + land.get("land_cost") + "\n")
+               landdata.append("Land Description: " + land.get("land_description") + "\n")
+               landdata.append("\n \n")
             }
-
-            // Hide the progress bar after data is successfully fetched
+            //stop the progressbar after a successfull fetch of data
             progress.visibility = View.GONE
          }
+
       })
    }
 }
@@ -520,11 +524,9 @@ class HomeActivity : AppCompatActivity() {
 - `setContentView(R.layout.activity_home)` loads the layout for the home screen.
 - `ViewCompat.setOnApplyWindowInsetsListener` ensures the UI doesn't overlap with system UI elements (like status bar).
 
-### Link to AddLand Activity:
-- A button `addland` links to the **AddLand** Activity, allowing the user to post new land details.
 
 ### Fetching Data from API:
-- The `helper.get` method is used to make a GET request to the API URL (`https://labemployees.pythonanywhere.com/api/get_land_details`).
+- The `helper.get` method is used to make a GET request to the API URL (`https://modcom2.pythonanywhere.com/api/get_land_details`).
 - The response is a JSON array, which is parsed and displayed in the `TextView` (`empdata`).
 
 ### Displaying Data:
