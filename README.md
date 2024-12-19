@@ -284,9 +284,6 @@ In `res/layout/activity_signin.xml`, add the following code to design the sign-i
 </LinearLayout>
 ```
 
-Layout Output
-![Screenshot_20241219-140518.png](../../../home/user/Downloads/Screenshot_20241219-140518.png)
-
 
 ## Step 4: Handle User Login in SigninActivity.kt:
 
@@ -451,9 +448,6 @@ In this layout:
 - **TextView** displays the title "View Lands".
 - **ProgressBar** shows loading status while fetching data.
 - **CardView** contains a **ScrollView** with a **TextView** to dynamically display land information.
-
-Output
-![Screenshot_20241219-140735.png](../../../home/user/Downloads/Screenshot_20241219-140735.png)
 
 
 ### Kotlin Code (HomeActivity.kt)
