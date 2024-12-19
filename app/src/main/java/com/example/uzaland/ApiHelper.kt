@@ -4,83 +4,83 @@ import android.content.Context
 import android.widget.Toast
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.JsonHttpResponseHandler
+import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
-import cz.msebera.android.httpclient.entity.StringEntity
 import org.json.JSONArray
 import org.json.JSONObject
 class ApiHelper(var context: Context) {
+
     //POST
-    fun post(api: String, jsonData: JSONObject){
-        Toast.makeText(context, "Please Wait for response", Toast.LENGTH_LONG).show()
+    fun post(api: String, params: RequestParams) {
+        Toast.makeText(context, "Please wait for response", Toast.LENGTH_LONG).show()
         val client = AsyncHttpClient(true, 80, 443)
-        val con_body = StringEntity(jsonData.toString())
-        //post to API
-        client.post(context, api, con_body, "application/json",
-            object : JsonHttpResponseHandler(){
-                override fun onSuccess(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    response: JSONObject?
-                ) {
-                    Toast.makeText(context, "Response $response ", Toast.LENGTH_SHORT).show()
-                }
 
-                override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    throwable: Throwable?,
-                    errorResponse: JSONObject?
-                ) {
-                    //super.onFailure(statusCode, headers, throwable, errorResponse)
-                    //Todo handle the error
-                    Toast.makeText(context, "Error Occurred"+throwable.toString(), Toast.LENGTH_LONG).show()
-                    // progressbar.visibility = View.GONE
-                }
-            })
-    }//END POST
+        // Post to API
+        client.post(api, params, object : JsonHttpResponseHandler() {
+            // Get response on success
+            override fun onSuccess(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                response: JSONObject?
+            ) {
+                Toast.makeText(context, "Response: $response", Toast.LENGTH_SHORT).show()
+            }
+            // Get response on failure
+            override fun onFailure(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                throwable: Throwable?,
+                errorResponse: JSONObject?
+            ) {
+                Toast.makeText(context, "Error occurred: ${throwable?.message}", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
 
-    fun post_login(api: String, jsonData: JSONObject, callBack: CallBack) {
+//    POST for Login
+    fun post_login(api: String, params: RequestParams, callBack: CallBack) {
         val client = AsyncHttpClient(true, 80, 443)
-        // POST to API
-        val jsonEntity = StringEntity(jsonData.toString())
-        client.post(context, api, jsonEntity, "application/json",
-            object : JsonHttpResponseHandler() {
-                override fun onSuccess(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    response: JSONObject
-                ) {
-                    callBack.onSuccess(response.toString())
-                    // Uncomment below for debugging if needed
-                    // Toast.makeText(context, "Response: $response", Toast.LENGTH_SHORT).show()
-                }
 
-                override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    responseString: String?,
-                    throwable: Throwable?
-                ) {
-                    Toast.makeText(context, "Error Occurred: $throwable", Toast.LENGTH_LONG).show()
-                }
-            })
-    }// END POST
+        // Get response on success
+        client.post(api, params, object : JsonHttpResponseHandler() {
+            override fun onSuccess(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                response: JSONObject
+            ) {
+                callBack.onSuccess(response.toString())
+            }
+
+            // Get response on failure
+            override fun onFailure(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseString: String?,
+                throwable: Throwable?
+            ) {
+                Toast.makeText(context, "Error Occurred: $throwable", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
 
 
-    //GET
+
+    //GET Records from API
     fun get(api: String, callBack: CallBack) {
         val client = AsyncHttpClient(true, 80, 443)
         //GET to API
         client.get(context, api, null, "application/json",
             object : JsonHttpResponseHandler(){
+                // Get response on success
                 override fun onSuccess(
                     statusCode: Int,
                     headers: Array<out Header>?,
                     response: JSONArray
                 ) {
                     callBack.onSuccess(response.toString())
-                    //Toast.makeText(context, "Response $response ", Toast.LENGTH_SHORT).show()
+
                 }
+                // Get response on success
                 override fun onFailure(
                     statusCode: Int,
                     headers: Array<out Header>?,
@@ -93,66 +93,6 @@ class ApiHelper(var context: Context) {
             })
 
     }//END GET
-
-    //PUT
-    fun put(api: String, jsonData: JSONObject){
-        Toast.makeText(context, "Please Wait for response", Toast.LENGTH_LONG).show()
-        val client = AsyncHttpClient(true, 80, 443)
-        val con_body = StringEntity(jsonData.toString())
-        //PUT to API
-        client.put(context, api, con_body, "application/json",
-            object : JsonHttpResponseHandler(){
-                override fun onSuccess(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    response: JSONObject?
-                ) {
-                    Toast.makeText(context, "Response $response ", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    throwable: Throwable?,
-                    errorResponse: JSONObject?
-                ) {
-                    //super.onFailure(statusCode, headers, throwable, errorResponse)
-                    //Todo handle the error
-                    Toast.makeText(context, "Error Occurred"+throwable.toString(), Toast.LENGTH_LONG).show()
-                    // progressbar.visibility = View.GONE
-                }
-            })
-    }//END PUT
-
-    //DELETE
-    fun delete(api: String, jsonData: JSONObject){
-        Toast.makeText(context, "Please Wait for response", Toast.LENGTH_LONG).show()
-        val client = AsyncHttpClient(true, 80, 443)
-        val con_body = StringEntity(jsonData.toString())
-        //DELETE to API
-        client.delete(context, api, con_body, "application/json",
-            object : JsonHttpResponseHandler(){
-                override fun onSuccess(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    response: JSONObject?
-                ) {
-                    Toast.makeText(context, "Response $response ", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<out Header>?,
-                    throwable: Throwable?,
-                    errorResponse: JSONObject?
-                ) {
-                    //super.onFailure(statusCode, headers, throwable, errorResponse)
-                    //Todo handle the error
-                    Toast.makeText(context, "Error Occurred"+throwable.toString(), Toast.LENGTH_LONG).show()
-                    // progressbar.visibility = View.GONE
-                }
-            })
-    }//END DELETE
 
     //Interface to used by the GET function above.
     interface CallBack {

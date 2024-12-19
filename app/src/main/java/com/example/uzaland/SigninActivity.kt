@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.loopj.android.http.RequestParams
 import org.json.JSONObject
 
 class SigninActivity : AppCompatActivity() {
@@ -28,7 +29,7 @@ class SigninActivity : AppCompatActivity() {
             val intent = Intent(application, MainActivity::class.java)
             startActivity(intent)
         }
-//        fetch login button and listen on click
+        //fetch login button and listen on click
         val loginbtn = findViewById<Button>(R.id.login)
         loginbtn.setOnClickListener {
 //            fetch the 2 inputs
@@ -40,12 +41,10 @@ class SigninActivity : AppCompatActivity() {
             val api = "https://modcom2.pythonanywhere.com/api/signin"
             val helper = ApiHelper(applicationContext)
             //Create a JSON Object of email and Password
-            val body = JSONObject()
+            val body = RequestParams()
             //Use Email Edit Text
             body.put("email", email.text.toString())
             body.put("password", password.text.toString())
-
-
 
             helper.post_login(api, body, object : ApiHelper.CallBack{
                 override fun onSuccess(result: String?) {
@@ -59,7 +58,6 @@ class SigninActivity : AppCompatActivity() {
                     else{
                         Toast.makeText(applicationContext, "Invalid Credentials", Toast.LENGTH_SHORT).show()
                     }
-
                 }
             })
 

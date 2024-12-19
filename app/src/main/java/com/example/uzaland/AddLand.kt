@@ -67,7 +67,7 @@ class AddLand : AppCompatActivity() {
             val helper = ApiHelper(applicationContext)
 
             // Trigger the POST function inside the API helper class
-            helper.post(api, body)
+           // helper.post(api, body)
         }
 
         // Fetch the Upload Image Button and set OnClickListener
